@@ -5,23 +5,22 @@ import { Config } from '../config';
 let _manager: FileManager;
 
 class FileManager {
-    constructor(private root: string) { }
+    constructor() { }
 
-    public readFile(fileName: string) {
-        return fs.readFileSync(`${this.root}/${fileName}`).toString();
+    public readFile(filePath: string) {
+        return fs.readFileSync(`${filePath}`).toString();
     }
 
-    public writeFile(fileName: string, data: any) {
-        fs.writeFileSync(`${this.root}/${fileName}`, data);
+    public writeFile(filePath: string, data: any) {
+        fs.writeFileSync(filePath, data);
+
+        return filePath;
     }
 }
 
-export function getFileManager(config: Config) {
+export function getFileManager() {
     if (!_manager) {
-        if (!config.root) {
-            throw new Error("Root was not set correctly");
-        }
-        _manager = new FileManager(config.root);
+        _manager = new FileManager();
     }
     return _manager;
 }
